@@ -28,11 +28,12 @@ class ProductsTest extends TestCase
 
     public function test_products_homepage_contains_non_empty_table()
     {
-        Product::factory()->create();
+        $product = Product::factory()->create();
 
         $response = $this->get('/product');
 
         $response->assertStatus(200);
         $response->assertDontSeeText('Nothing to show');
+        $response->assertViewHas('products', fn ($collection) => $collection->contains($product));
     }
 }
