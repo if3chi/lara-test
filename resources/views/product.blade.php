@@ -25,7 +25,7 @@
                             </tbody>
                         </table>
                     @empty
-                        <div class="text-lg text-center">Nothing to show</div>
+                        <div class="text-lg text-center">{{ __('Nothing to show') }}</div>
                     @endforelse
                 </div>
             </div>
