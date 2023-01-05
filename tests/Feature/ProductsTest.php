@@ -36,4 +36,14 @@ class ProductsTest extends TestCase
         $response->assertDontSeeText('Nothing to show');
         $response->assertViewHas('products', fn ($collection) => $collection->contains($product));
     }
+
+    public function test_paginated_data_doesnt_contain_11th_record()
+    {
+        $product = Product::factory(11)->create()->last();
+
+        $response = $this->get('/product');
+
+        $response->assertStatus(200);
+        $response->assertViewHas('products', fn ($collection) => !$collection->contains($product));
+    }
 }
