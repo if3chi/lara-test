@@ -26,7 +26,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('passwd')
         ]);
 
-        $response = $this->post('/login', [
+        $this->post('/login', [
             'email' => 'test@lara.com',
             'password' => 'passwd'
         ]);
