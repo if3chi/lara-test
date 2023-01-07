@@ -19,8 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/product', [ProductsController::class, 'index'])
-    ->middleware('auth')->name('product');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/products', [ProductsController::class, 'index'])
+        ->middleware('auth')->name('product');
+
+    Route::middleware(['is.admin'])->group(function () {
+        Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
+        Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
+    });
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

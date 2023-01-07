@@ -13,7 +13,7 @@ class AuthTest extends TestCase
 
     public function test_unauthencated_user_cannot_access_product_page()
     {
-        $response = $this->get('/product');
+        $response = $this->get('/products');
 
         $response->assertStatus(302);
         $response->assertRedirect('login');
@@ -30,7 +30,7 @@ class AuthTest extends TestCase
             'email' => 'test@lara.com',
             'password' => 'passwd'
         ]);
-        $response = $this->get('/product');
+        $response = $this->get('/products');
 
         $response->assertStatus(200);
         $response->assertViewHas('products');

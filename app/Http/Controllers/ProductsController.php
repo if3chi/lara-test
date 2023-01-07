@@ -13,4 +13,14 @@ class ProductsController extends Controller
 
         return view('product', compact('products'));
     }
+
+    public function create()
+    {
+        # code...
+    }
+
+    public function store()
+    {
+        # code...
+    }
 }
