@@ -90,14 +90,7 @@ class ProductsTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_admin_can_save_product()
-    {
-        $response = $this->actingAs($this->admin)->post('/products');
-
-        $response->assertStatus(200);
-    }
-
-    public function test_non_admin_cannot_save_product()
+    public function test_non_admin_cannot_create_product()
     {
         $response = $this->actingAs($this->user)->post('/products');
 
@@ -112,11 +105,11 @@ class ProductsTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect('products');
-        $response->assertDatabaseHas('products', $product);
+        $this->assertDatabaseHas('products', $product);
 
         $latestProduct = Product::latest()->first();
-        $response->assertEquals($product['name'], $latestProduct->name);
-        $response->assertEquals($product['price'], $latestProduct->price);
+        $this->assertEquals($product['name'], $latestProduct->name);
+        $this->assertEquals($product['price'], $latestProduct->price);
     }
 
     private function createUser(?int $amount = null, bool $isAdmin = false): User|Collection

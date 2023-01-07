@@ -21,6 +21,8 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        Product::create($request);
+        Product::create($request->only(['name', 'price']));
+
+        return redirect('products');
     }
 }
