@@ -19,8 +19,8 @@ class ProductsController extends Controller
         # code...
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        # code...
+        Product::create($request);
     }
 }

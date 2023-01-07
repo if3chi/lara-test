@@ -104,6 +104,21 @@ class ProductsTest extends TestCase
         $response->assertStatus(403);
     }
 
+    public function test_admin_can_create_product_successfully()
+    {
+        $product = ['name' => 'AD product', 'price' => 9.99];
+
+        $response = $this->actingAs($this->admin)->post('/products', $product);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('products');
+        $response->assertDatabaseHas('products', $product);
+
+        $latestProduct = Product::latest()->first();
+        $response->assertEquals($product['name'], $latestProduct->name);
+        $response->assertEquals($product['price'], $latestProduct->price);
+    }
+
     private function createUser(?int $amount = null, bool $isAdmin = false): User|Collection
     {
         return User::factory($amount)->create(['is_admin' => $isAdmin]);
