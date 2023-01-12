@@ -32,8 +32,10 @@ class ProductsController extends Controller
         return view('product.edit', compact('product'));
     }
 
-    public function update()
+    public function update(Request $request, Product $product)
     {
-        return Redirect::route('products.edit')->with('status', 'product-updated');
+        $product->update($request->only('name', 'price'));
+
+        return Redirect::route('products.edit', $product->id)->with('status', 'product-updated');
     }
 }

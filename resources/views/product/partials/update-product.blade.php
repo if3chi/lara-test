@@ -9,9 +9,9 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('products.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('products.update', $product->id) }}" class="mt-6 space-y-6">
         @csrf
-        {{-- @method('patch') --}}
+        @method('patch')
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
