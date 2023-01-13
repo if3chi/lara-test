@@ -65,7 +65,7 @@ class ProductsTest extends TestCase
         $response = $this->actingAs($this->admin)->get('/products');
 
         $response->assertStatus(200);
-        $response->assertSee('Add New Product');
+        $response->assertSee('New Product');
     }
 
     public function test_non_admin_cannot_see_product_create_button()
@@ -110,6 +110,23 @@ class ProductsTest extends TestCase
         $latestProduct = Product::latest()->first();
         $this->assertEquals($product['name'], $latestProduct->name);
         $this->assertEquals($product['price'], $latestProduct->price);
+    }
+
+    public function test_admin_can_access_product_edit_page()
+    {
+        $product = $this->createProduct();
+
+        $response = $this->get(route('products.edit', $product->id));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('login');
+
+        $response = $this->actingAs($this->admin)->get(route('products.edit', $product->id));
+
+        $response->assertStatus(200);
+        $response->assertSee("value=\"$product->name\"", escape: false);
+        $response->assertSee("value=\"$product->price\"", escape: false);
+        $response->assertViewHas('product', $product);
     }
 
     private function createUser(?int $amount = null, bool $isAdmin = false): User|Collection
