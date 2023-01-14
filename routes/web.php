@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/products', [ProductsController::class, 'index'])
-        ->middleware('auth')->name('product');
+        ->middleware('auth')->name('products');
 
     Route::middleware(['is.admin'])->group(function () {
         Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
