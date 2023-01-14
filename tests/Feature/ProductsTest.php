@@ -129,6 +129,18 @@ class ProductsTest extends TestCase
         $response->assertViewHas('product', $product);
     }
 
+    public function test_product_update_throws_validation_errors_and_redirects_back_to_form()
+    {
+        $product = $this->createProduct();
+
+        $response = $this->actingAs($this->admin)
+            ->put(route('products.update', $product->id), ['name' => '', 'price' => 'qww']);
+
+        $response->assertStatus(302);
+        $response->assertInvalid(['name', 'price']);
+        $response->assertSessionHasErrors(['name', 'price']);
+    }
+
     private function createUser(?int $amount = null, bool $isAdmin = false): User|Collection
     {
         return User::factory($amount)->create(['is_admin' => $isAdmin]);
