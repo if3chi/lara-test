@@ -141,7 +141,7 @@ class ProductsTest extends TestCase
         $response->assertSessionHasErrors(['name', 'price']);
     }
 
-    public function test_product_delete_successfully()
+    public function test_admin_can_delete_product_successfully()
     {
         $product = $this->createProduct();
 
@@ -152,6 +152,7 @@ class ProductsTest extends TestCase
         $response->assertRedirect(route('products'));
         $this->assertDatabaseMissing('products', $product->toArray());
         $this->assertDatabaseCount('products', 0);
+        $this->assertDatabaseEmpty('products');
     }
 
     private function createUser(?int $amount = null, bool $isAdmin = false): User|Collection

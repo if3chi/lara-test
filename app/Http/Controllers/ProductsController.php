@@ -39,4 +39,11 @@ class ProductsController extends Controller
 
         return Redirect::route('products.edit', $product->id)->with('status', 'product-updated');
     }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return Redirect::route('products');
+    }
 }
