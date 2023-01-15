@@ -20,4 +20,11 @@ class ProductsApiTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([$product->toArray()]);
     }
+
+    public function test_api_product_create_endpoint_returns_422()
+    {
+        $response = $this->postJson('/api/products');
+
+        $response->assertStatus(422);
+    }
 }
