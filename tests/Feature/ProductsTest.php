@@ -5,13 +5,13 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
+use Tests\Feature\Traits\HasProductUtilies;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductsTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HasProductUtilies;
 
     private User $user;
     private User $admin;
@@ -153,15 +153,5 @@ class ProductsTest extends TestCase
         $this->assertDatabaseMissing('products', $product->toArray());
         $this->assertDatabaseCount('products', 0);
         $this->assertDatabaseEmpty('products');
-    }
-
-    private function createUser(?int $amount = null, bool $isAdmin = false): User|Collection
-    {
-        return User::factory($amount)->create(['is_admin' => $isAdmin]);
-    }
-
-    private function createProduct(?int $amount = null): Product|Collection
-    {
-        return Product::factory($amount)->create();
     }
 }
