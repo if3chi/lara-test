@@ -11,7 +11,7 @@ class ProductsApiTest extends TestCase
 {
     use RefreshDatabase, HasProductUtilies;
 
-    public function test_api_products_endpoint_returns_success_with_data()
+    public function test_api_returns_products_list()
     {
         $product = $this->createProduct();
 
@@ -21,10 +21,23 @@ class ProductsApiTest extends TestCase
         $response->assertJson([$product->toArray()]);
     }
 
-    public function test_api_product_create_endpoint_returns_422()
+    public function test_api_product_store_validates_request()
     {
         $response = $this->postJson('/api/products');
 
         $response->assertStatus(422);
+    }
+
+    public function test_api_product_store_successful()
+    {
+        $product = [
+            'name' => 'Green',
+            'price' => 98.89
+        ];
+
+        $response = $this->postJson('/api/products', $product);
+
+        $response->assertStatus(201);
+        $response->assertJson($product);
     }
 }
