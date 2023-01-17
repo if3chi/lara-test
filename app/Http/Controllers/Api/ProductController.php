@@ -17,4 +17,11 @@ class ProductController extends Controller
     {
         return Product::create($request->validated());
     }
+
+    public function destroy(Product $product)
+    {
+        // $product->delete();
+
+        return $product->delete();
+    }
 }

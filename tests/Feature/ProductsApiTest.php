@@ -40,4 +40,14 @@ class ProductsApiTest extends TestCase
         $response->assertStatus(201);
         $response->assertJson($product);
     }
+
+    public function test_api_product_delete_successful()
+    {
+        $product = $this->createProduct();
+
+        $response = $this->deleteJson("/api/products/$product->id");
+
+        $response->assertStatus(200);
+        $this->assertDatabaseEmpty('products');
+    }
 }
